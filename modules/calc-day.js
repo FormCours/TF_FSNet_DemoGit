@@ -30,8 +30,18 @@ const calcDay = {
     toAnniversary: (date, month) => {
         const anniversary = getNextEvent(date, month);
         return getDiffDays(anniversary);
-    }
+    },
 
+    toHolidays: () => {
+        const currentMonth = (new Date()).getMonth() + 1;
+
+        if (currentMonth === 7 || currentMonth === 8) {
+            return 0;
+        }
+
+        const startHoliday = getNextEvent(1, 7);
+        return getDiffDays(startHoliday);
+    }
 }
 
 module.exports = calcDay; 
