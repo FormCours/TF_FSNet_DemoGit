@@ -1,33 +1,35 @@
 const ONE_DAY = 1000 * 60 * 60 * 24;
 
+const getNextEvent = (date, month) => {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    
+    const result = new Date(currentYear, month - 1, date);
+    if(today > result) {
+        result.setFullYear(currentYear + 1);
+    }
+
+    return result;
+}
+
+const getDiffDays = (targetDate) => {
+    const today = new Date();
+
+    const diff = targetDate.getTime() - today.getTime();
+    return Math.ceil(diff / ONE_DAY); 
+}
+
+
 const calcDay = {
 
     toChristmas: () => {
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        const christmas = new Date(currentYear, 11, 25);
-
-        if(today > christmas) {
-            christmas.setFullYear(currentYear + 1);
-        }
-
-        const diff = christmas.getTime() - today.getTime();
-
-        return Math.ceil(diff / ONE_DAY);
+        const christmas = getNextEvent(25, 12);
+        return getDiffDays(christmas);
     }, 
 
     toAnniversary: (date, month) => {
-        const today = new Date();
-        const currentYear = today.getFullYear();
-        const anniversary = new Date(currentYear, month - 1, date);
-
-        if(today > anniversary) {
-            anniversary.setFullYear(currentYear + 1);
-        }
-
-        const diff = anniversary.getTime() - today.getTime();
-
-        return Math.ceil(diff / ONE_DAY);
+        const anniversary = getNextEvent(date, month);
+        return getDiffDays(anniversary);
     }
 
 }
